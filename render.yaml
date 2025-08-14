@@ -2,6 +2,6 @@
 services:
   - type: static_site
     name: tiendaOnline-edos
-    rootDir: appcliente
+    rootDir: .
     buildCommand: npm install && npm run build --configuration production
-    publishDir: dist/appcliente
+    publishDir: dist/tiendaOnline
