@@ -34,7 +34,7 @@
   "main": "index.js",
   "scripts": {
     "ng": "ng",
-    "build": "rimraf dist && ng build && echo '/* /index.html 200' > dist/appcliente/_redirects",
+    "build": "rimraf dist && ng build && echo '/* /index.html 200' > dist/tiendaOnline/_redirects",
     "clean": "rimraf node_modules dist package-lock.json",
     "reinstall": "npm run clean && npm install",
     "start": "ng serve"
