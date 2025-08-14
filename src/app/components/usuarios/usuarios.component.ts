@@ -18,16 +18,15 @@ import {
 
 @Component({
   selector: 'app-usuarios',
-   standalone: true,
+  standalone: true,
   imports: [
     CommonModule,
-    MatIconModule,      // ← aquí
+    MatIconModule,
     SeccionDeTitulosComponent,
     RouterModule
   ],
-
-  templateUrl: './Usuarios.component.html',
-  styleUrl: './Usuarios.component.css'
+  templateUrl: './usuarios.component.html',
+  styleUrls: ['./usuarios.component.css']
 })
 
 export class UsuariosComponent implements OnInit {
