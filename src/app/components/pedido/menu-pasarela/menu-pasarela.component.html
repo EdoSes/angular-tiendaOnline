@@ -1,0 +1,107 @@
+
+<mat-dialog-content style="overflow: hidden;">
+    <mat-drawer-container class="drawer-container" autosize>
+        <mat-drawer class="drawer" #drawer opened="true" mode="side" position="start">
+            <mat-nav-list>   
+               <mat-list-item>
+                    <button (click)="payWithFrm('Card')" mat-button  matTooltip="Tarj. Credito">
+                      <mat-icon>credit_card</mat-icon> 
+                        Tarjeta Credito
+                    </button> 
+                </mat-list-item>   
+
+                <mat-list-item>
+                    <button (click)="payWithFrm('Paypal')" mat-button  matTooltip="Paypal">
+                        <mat-icon>link</mat-icon> 
+                        Paypal
+                    </button>      
+               </mat-list-item>
+
+                <mat-list-item>
+                     <button  (click)="payWithFrm('TranBank')" mat-button  matTooltip="Transferencia">
+                        <mat-icon>  account_balance </mat-icon> 
+                         Transferencia 
+                    </button>
+                </mat-list-item>   
+
+                <mat-list-item>
+                    <button (click)="payWithFrm('Cash')" mat-button matTooltip="En Efectivo">
+                        <mat-icon> monetization_on </mat-icon>
+                        En Efectivo
+                    </button>
+                </mat-list-item>
+                <div class="linea"></div>
+                <mat-list-item>
+                    <button (click)="onNoClick(pay)" mat-button  matTooltip="Remover Compra">
+                        <mat-icon>remove_shopping_cart</mat-icon>
+                         Remover Compra
+                    </button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button (click)="onYesClick(pay)" mat-button  matTooltip="Hacer Transaccion">
+                        <mat-icon>redeem</mat-icon>
+                            Hacer Transaccion
+                    </button>  
+                </mat-list-item>
+            </mat-nav-list>
+        </mat-drawer>
+        <mat-drawer-content class="mat-drawer-content">
+            <div class="contenido-factura">
+            <!-- Pago Por Tarjeta -->
+            <div *ngIf="divpayCard">
+                <app-tarjetas></app-tarjetas>
+            </div>
+            <!-- Pago Por paypal -->
+            <div *ngIf="divPaypal">
+               <h3>Ha Seleccionado Pago con PAYPAL, de Click <strong><span style="color: brown;"> Hacer Transaccion </span> </strong></h3>
+            </div>
+            <!-- Pago Por Transferencia -->
+            <div *ngIf="divPayTran">
+                <h3>Ha Seleccionado Pago con Transferencia, de Click <strong><span style="color: brown;"> Hacer Transaccion </span> </strong></h3>
+            </div>
+              <!-- Pago de Contado (Cahs) -->
+              <div *ngIf="divpayCash">
+                <h3>Ha Seleccionado Pago en Efectivo, de Click <strong><span style="color: brown;"> Hacer Transaccion </span> </strong></h3>
+            </div>
+            <!-- Info resumen de la Compra-->
+            <div class="my-class" *ngIf="divRefOpen">
+                <section  style="font-size: 12px">
+                    <h3 style="align-items: center;"><strong>Cart de Productos Seleccionados </strong></h3>         
+                    <p>Nombre: {{ datos.nombre }} - Apellido: {{datos.apellido}} - email: {{datos.email}}  </p> 
+                    <p>Numero de Pedido: {{ datos.idPedido }} - 
+                        <strong> Valor del Pedido: {{ datos.valorPedido | number: '2.2'}}</strong> 
+                    </p>
+                </section>
+                <div class="table-container"> 
+                <table style="font-size: 10px;"> 
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let producto of datos.objPedido ; let indice = index">
+                        <tr>
+                            <td>{{indice+1}} </td>
+                            <td style="text-align: center;">{{ producto?.nombreProducto }}</td> 
+                            <td style="text-align: right;">{{ producto?.cantidadProducto  | number: '1.2-2'  }} </td>
+                            <td style="text-align: center;">{{ producto?.precioProducto   | number:'1.2-2'}}</td>
+                            <td style="text-align: right;">{{producto?.precioProducto*producto.cantidadProducto | number: '1.2-2'}} </td>    
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</mat-dialog-content>
+
+
+
+
+
+  

@@ -1,0 +1,74 @@
+
+/* === Contenedor principal === */
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #bde3c5;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* === Tarjeta o sección individual === */
+.cart {
+  flex: 1;
+  padding: 20px;
+  border: 1px dotted black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* === Tabla con filas alternadas === */
+tr:nth-child(even) {
+  background-color: #c6bfbf;
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.pdf-wrapper {
+  width: 100%;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+ngx-extended-pdf-viewer {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* === Diseño responsivo === */
+@media (max-width: 768px) {
+  .contenedor {
+    padding: 10px;
+  }
+
+  .cart {
+    padding: 10px;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  mat-sidenav {
+    display: none;
+  }
+}

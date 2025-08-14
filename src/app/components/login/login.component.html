@@ -1,0 +1,77 @@
+
+<!-- container LOGIN  del CLIENTE  -->     
+<div class="overlay-screen" *ngIf="visible">
+  <button  mat-icon-button  class="social-icon" (click)="openDialog('Info', '{{message}}', 'Close')" matTooltip="Info de Ayuda" >
+    <mat-icon>help</mat-icon>
+  </button>
+  <div class="login-container">
+      <form [formGroup]="formLog" #f="ngForm" (ngSubmit)="login()" style="text-align:center;">  
+    <mat-form-field appearance="fill" AutoComplete="off">
+        <mat-label>Usuario</mat-label>
+        <input [readonly]="false" formControlName='usuario' matInput placeholder="Nombre Id Usuario"  name="usuario">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill" AutoComplete="off">
+      <mat-label>Correo Electronico</mat-label>
+         <input [readonly]="false" formControlName='email' matInput placeholder="Correo Electronico" type="email" name="email" style="width: 355px;">
+      </mat-form-field>
+      <div class="error">
+        <span *ngIf="formLog.get('email')?.hasError('pattern')">
+          El Precio <strong>Solo Numeros</strong> Permitidos
+        </span>   
+      </div>
+    <br>
+    <mat-form-field appearance="fill" AutoComplete="off" >
+      <mat-label>Password</mat-label>
+      <input type="password" formControlName="password" matInput placeholder="Ingrese Password" name="password"> 
+    </mat-form-field>
+    <div class="error">
+      <span *ngIf="formLog.get('password')?.hasError('maxlength')">
+        Excedio los <strong>6 Caracteres</strong> Permitidos
+      </span>   
+    </div>    
+    <mat-dialog-actions aliegn="end">
+  <!-- Cancelar -->
+  <button mat-stroked-button color="warn"
+          mat-dialog-close
+          (click)="cancelar()">
+    Cancelar
+  </button>
+
+  <!-- Registrarse -->
+  <button mat-raised-button color="accent"
+          [disabled]="formLog.invalid"
+          matTooltip="Crear Usuario"
+          (click)="sigIn()">
+    Registrarse
+  </button>
+
+  <!-- Login -->
+  <button mat-raised-button color="primary"
+          [disabled]="formLog.invalid"
+          matTooltip="Login a su Cuenta"
+          (click)="login()">
+    Login
+  </button>
+
+  <div class="linea"></div>
+
+  <!-- Restablecer Contraseña -->
+  <button mat-stroked-button color="primary"
+          [disabled]="formLog.invalid"
+          matTooltip="Generar Nuevo Password"
+          (click)="onNewPass()">
+    ¿Olvidó el Password?
+  </button>
+
+    </mat-dialog-actions>
+      </form>
+      <div class="spinner" *ngIf="isLoading">
+      </div>
+      <div *ngIf="isLoading">
+        <p style="color: rgb(239, 235, 7); font-size: small;"> <strong>{{ errorMessage }} </strong>  </p>
+     </div>
+  </div>
+  
+ 
+</div>

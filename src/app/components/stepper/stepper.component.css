@@ -1,0 +1,28 @@
+/* stepper-progress.component.css */
+
+  /*Stepper inicio */
+   
+  .myIcon{
+    top: 8px;
+    font-size: 25px; /* Adjust the icon size */
+    color: black; /* Adjust the icon color */
+    cursor: pointer; /* Change the cursor to pointer on hover */
+  }
+  
+
+  /* Container for the stepper */
+mat-horizontal-stepper {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+/* Style for each step content */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Style for the stepper buttons */
+button {
+  margin-right: 8px;
+}

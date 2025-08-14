@@ -1,0 +1,45 @@
+
+<div class="stepper">
+<mat-horizontal-stepper [linear]="isLinear" #stepper >
+
+  <mat-step>
+      <ng-template matStepLabel matStepperIcon="home">
+            <mat-icon [matBadge]="this._dataSerCount._dataCountCart"
+              class="myIcon" matBadgePosition="above after" 
+              matBadgeSize="small"  
+              matBadgeColor="warn"
+              aria-hidden="false">
+              add_shopping_cart
+            </mat-icon>
+      </ng-template>     
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel> 
+      $: <strong style="color: brown;"> {{this.valorPed  | number: '2.2'}} </strong>
+    </ng-template>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel  matStepperIcon="last">
+      <button>
+        <mat-icon class="myIcon" (click)="checkOut()" matTooltip="Registro y Pago">account_balance</mat-icon>
+      </button>
+    </ng-template>
+  </mat-step>
+
+
+  <mat-step>
+    <ng-template matStepLabel  matStepperIcon="last">
+      <button>
+        <mat-icon  mat-icon-button  class="myIcon" (click)="shippingPed()" matTooltip="Seguir mi Pedido"> local_shipping</mat-icon>
+      </button>
+    </ng-template>
+  </mat-step>
+
+</mat-horizontal-stepper>
+
+</div>
+
+
+

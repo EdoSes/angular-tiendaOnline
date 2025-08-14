@@ -1,0 +1,106 @@
+
+/* Animación suave */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px); /* menos dramático */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.icono-tienda {
+  width: 28px;
+  height: 28px;
+}
+
+@media (max-width: 500px) {
+  .icono-tienda {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+
+.bg-color {
+  background-color: #fafafa;
+  padding: 12px 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+
+.containers {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.title {
+  padding-bottom: 8px;
+  text-align: center;
+  position: relative;
+}
+
+.title::before {
+  animation: separatorFade 0.8s ease-in-out;
+}
+
+@keyframes separatorFade {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 60px;
+    opacity: 0.5;
+  }
+}
+@keyframes focusIn {
+  0% { letter-spacing: 1px; opacity: 0; }
+  100% { letter-spacing: 0.5px; opacity: 1; }
+}
+
+.title h1 {
+  animation: focusIn 0.6s ease-out;
+}
+
+.title h1 {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.bg-color {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.title h1:hover {
+  color: #fa0;
+  transition: color 0.3s ease;
+}
+
+.title h1 span {
+  color: #fa0;
+  font-weight: 700;
+}
+
+.title p {
+  color: #666;
+}
+@media (prefers-color-scheme: dark) {
+  .title p {
+    color: #aaa;
+  }
+}
+.divider {
+  margin-block: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    mix-blend-mode: lighten;
+  }
+}

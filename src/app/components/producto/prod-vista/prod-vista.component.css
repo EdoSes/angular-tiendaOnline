@@ -1,0 +1,27 @@
+mat-form-field {
+
+    width:  100%;
+
+}
+
+.error {
+
+    color: brown;
+    margin-top: -10px;
+}
+
+.container {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.example-margin {
+   
+
+    color: red;
+   
+
+     
+  }

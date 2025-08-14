@@ -1,0 +1,276 @@
+
+<!--- SECCION DE TITULO -->
+<app-title-section
+      [title]="'Galería'"
+      [subtitle]="'Pedidos del Cliente'"
+      [highlight]="'Tienda Online'">
+</app-title-section>
+
+<!--- CART DEL PEDIDO Y ENTRADA INFO DEL CLIENTE -->
+<div class="contenedor" *ngIf="divinfoClte">
+  <!--- DIV DE PRODUCTOS DEL CART -->
+  <div class="wraper">   
+      <form>
+        <table class="table-cart">
+          <caption class="capProductos">Cart de Productos Seleccionados</caption>
+            <thead style="font-size: 16px;">
+              <tr  style="background-color: rgb(238, 243, 238); color: rgb(23, 94, 160);" >
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Promocion</th>
+                <th>Accion</th>  
+              </tr>
+            </thead>
+            <tbody>
+              <tr  *ngFor="let producto of productos; let indice = index" >
+                <td style=" border: rgb(1, 82, 27) 0.2px solid;" >
+                  <img src="http://localhost:3000/{{producto.pathProducto}}"  width="70" height="70"  alt="">
+                </td>
+                <td *ngIf="producto.promocionProducto > 0; else noCategory" style="color: rgba(66, 10, 235, 0.975);">
+                    {{producto.nombreProducto}}
+                </td>
+                <td *ngIf="producto.promocionProducto > 0; else noCategory1" style="color: rgba(66, 10, 235, 0.975);"> 
+                  {{producto.precioProducto-((producto.precioProducto*producto.promocionProducto)/100) | number: '2.2'}}
+                </td>
+                <td *ngIf="producto.promocionProducto > 0; else noCategory2" style="color: rgba(66, 10, 235, 0.975);">
+                    {{producto.cantidadProducto  | number: '2.2'}}
+                </td>
+                <td *ngIf="producto.promocionProducto > 0; else noCategory3" style="color: rgba(66, 10, 235, 0.975);"> 
+                  {{((producto.precioProducto-((producto.precioProducto*producto.promocionProducto)/100))*producto.cantidadProducto)| number: '2.2'}}
+                </td> 
+                <td  *ngIf="producto.promocionProducto > 0; else noCategory4"> 
+                   {{producto.promocionProducto}} %
+                </td>
+                <ng-template #noCategory> 
+                  <td> {{producto.nombreProducto}}</td>
+                </ng-template>
+                <ng-template #noCategory1> 
+                    <td> {{producto.precioProducto    | number: '2.2' }}</td>
+                </ng-template>
+                <ng-template #noCategory2> 
+                    <td> {{producto.cantidadProducto  | number: '2.2'}}</td>
+                </ng-template>
+                <ng-template #noCategory3> 
+                    <td> {{producto.precioProducto*producto.cantidadProducto | number: '2.2'}} </td>
+                </ng-template>
+                <ng-template #noCategory4 style="color: rgba(66, 10, 235, 0.975);">
+                  <td> 
+                    {{producto.promocionProducto}} %
+                  </td>
+                </ng-template>
+                <td>
+                  <button >
+                    <mat-icon (click)="delProdCart(indice)"   appIconSize="64px"  class="btnAdd">
+                      delete_outline
+                    </mat-icon>    
+                  </button>
+                </td>
+              </tr>
+            </tbody>   
+            <tfoot>
+              <tr>
+                <th style="color: rgba(66, 10, 235, 0.975);"> 
+                  Promocion
+                </th>
+                <th style="color: brown;"> <strong> TOTALES </strong>  </th>
+                <th></th>
+                <th> 
+                   {{this._dataSerCount._dataCountCart    | number: '2.2' }}
+                </th>
+                <th>
+                  {{valorPedido  |  number: '2.2'}}
+                </th>
+                <th></th>
+                <th> 
+                  <button  (click)="delAllProdCart()" matTooltip="Eliminar Lista Elementos">
+                      <mat-icon>
+                          delete_forever
+                      </mat-icon>
+                  </button>
+                </th>
+              </tr>
+            </tfoot>
+        </table>
+      </form>
+  </div>
+  
+
+   <!--- DIV INFO DEL CLIENTE GET DATOS Crear Cliente -->
+  
+  <div class="my-class" *ngIf="divCrearClte">    
+    <caption class="capCliente">Registro Nuevo Cliente</caption>
+      <form [formGroup]="fGroupCliente" #f="ngForm"> 
+          <!--- 1.id -->
+          <mat-form-field appearance="fill" AutoComplete="off">
+            <mat-label>Id Usuario</mat-label>
+            <input [readonly]="true" formControlName='idCliente'  matInput placeholder="Ingrese idCliente" name="idCliente">
+          </mat-form-field>
+          <div class="error">
+            <span *ngIf="fGroupCliente.get('idCliente')?.hasError('maxlength')">
+              Excedio los <strong>20 Caracteres</strong> Permitidos
+            </span>   
+          </div>
+        <!--- 2.Correo -->
+        <mat-form-field appearance="fill" AutoComplete="off">
+          <mat-label>Correo Electronico</mat-label>
+          <input [readonly]="true" formControlName='emailCliente'   matInput placeholder="Ingrese Email"  type="email" name="emailCliente">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('emailCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+
+         <!--- 3.Nombre -->
+        <mat-form-field appearance="fill" AutoComplete="off">
+            <mat-label>Nombres</mat-label>
+            <input formControlName="nombreCliente" matInput placeholder="Ingrese Nombre"> 
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('nombreCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+
+          <!---4.Apellido -->
+        <mat-form-field appearance="fill" AutoComplete="off">
+          <mat-label>Apellidos</mat-label>
+          <input formControlName="apellidoCliente" matInput placeholder="Ingrese Apellidos">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('apellidoCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>  
+
+          <!--- 5.Numero Cel -->
+        <mat-form-field appearance="fill" AutoComplete="off">
+            <mat-label>Numero Celular</mat-label>
+            <input formControlName="numeroCliente" matInput placeholder="Ingrese Numero"> 
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('numeroCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+
+          <!---6.Direccion -->
+        <mat-form-field appearance="fill" AutoComplete="off">
+            <mat-label>Direccion Entrega Producto</mat-label>
+            <input formControlName="direccionCliente" matInput placeholder="Entrega Producto"> 
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('direccionCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+        <br>
+       <mat-dialog-actions aliegn="end" >
+        <button type="button"  mat-button   [disabled]="!fGroupCliente.valid" (click)="cancPedido()"  style="border:rgb(33, 35, 37)" color="warn">
+          Cancelar Pedido
+        </button>  
+        <!-- * * * * * * * checkout Para CREAR Cliente sino Existe! *ngIf="beginCliente * * * * * * *  --> 
+        <button type="button"  mat-button  *ngIf="creaClteBtn"
+                [disabled]="!fGroupCliente.valid" (click)=" addCliente()"  
+                type="submit" style="border:  rgb(33, 35, 37)" color="primary" >
+            <span *ngIf="!isSubmitting">Seleccion Metodo de Pago</span>
+        </button>
+      </mat-dialog-actions>
+      </form>
+      
+  </div>
+
+  <!--- DIV INFO DEL CLIENTE GET DATOS Actualizacion del Cliente updCliente() -->
+  
+  <div class="my-class" *ngIf="divupdinfoClte">  
+    <caption class="capCliente">Actualizacion Informacion Cliente</caption>
+      <form [formGroup]="fGroupCliente" #f="ngForm">      
+        <mat-form-field appearance="fill" AutoComplete="off">
+          <mat-label>Id Usuario</mat-label>
+          <input [readonly]="true" formControlName='idCliente' matInput placeholder="Id Usuario" name="idCliente">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('id')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+
+        <mat-form-field appearance="fill" AutoComplete="off">
+          <mat-label>Correo Electronico</mat-label>
+          <input [readonly]="true" formControlName='emailCliente' matInput placeholder="Correo Electronico" type="email" name="email">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('emailCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+
+        <mat-form-field appearance="fill" AutoComplete="off">
+            <mat-label>Nombres</mat-label>
+            <input formControlName="nombreCliente" matInput placeholder="Ingrese Nombre"> 
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('nombreCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+        <mat-form-field appearance="fill" AutoComplete="off">
+          <mat-label>Apellidos</mat-label>
+          <input formControlName="apellidoCliente" matInput placeholder="Ingrese Apellidos">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('apellidoCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>    
+        <mat-form-field appearance="fill" AutoComplete="off">
+            <mat-label>Numero Celular</mat-label>
+            <input formControlName="numeroCliente" matInput placeholder="Ingrese Numero"> 
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('numeroCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+
+        <mat-form-field appearance="fill" AutoComplete="off">
+            <mat-label>Direccion Entrega Producto</mat-label>
+            <input formControlName="direccionCliente" matInput placeholder="Entrega Producto"> 
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="fGroupCliente.get('direccionCliente')?.hasError('maxlength')">
+            Excedio los <strong>20 Caracteres</strong> Permitidos
+          </span>   
+        </div>
+        <mat-dialog-actions aliegn="end" >
+            <!-- Botón Cancelar -->
+            <button mat-stroked-button color="warn" (click)="cancPedido()">
+              Cancelar Pedido
+            </button>
+            <!-- Botón Actualizar Cliente -->
+            <button mat-raised-button color="primary"
+                    *ngIf="updcliteBtn"
+                    [disabled]="fGroupCliente.invalid"
+                    (click)="UpdCliente()">
+              Escoja Método Pago
+            </button>
+        </mat-dialog-actions>
+      </form>
+  </div>
+ 
+</div>
+
+
+
+
+
+
+
+
+    
+
+    
+

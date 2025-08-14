@@ -1,0 +1,42 @@
+/* Style the container */
+.select-container {
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
+  margin-left: auto;
+}
+
+/* Style the select box */
+.custom-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* background-image: url('data:image/svg+xml;base64,...'); /* Example: down-arrow icon */
+   /*background-repeat: no-repeat;
+  background-position: right 10px center;*/
+}
+
+/* Style the options */
+.custom-select option {
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Remove focus outline */
+.custom-select:focus {
+  outline: none;
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Hover effect for options */
+.custom-select option:hover {
+  background-color: #eee;
+}

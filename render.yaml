@@ -1,0 +1,7 @@
+# render.yaml
+services:
+  - type: static_site
+    name: tiendaOnline-edos
+    rootDir: appcliente
+    buildCommand: npm install && npm run build --configuration production
+    publishDir: dist/appcliente

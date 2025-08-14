@@ -1,0 +1,42 @@
+
+
+/* Fin  Titulo */
+
+td, th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.mat-sort-header-container {
+  justify-content: center !important;
+}
+
+.btnEdit, .btnDelete {
+    cursor: pointer;
+}
+
+.btnDelete{
+   color: #B03048;
+}
+
+.btnEdit {
+    color: #4B78CD;;
+}
+
+  
+
+input[type="checkbox"]{
+    outline: 2px solid rgb(235, 8, 8);
+    height: 18px;
+    width: 18px;
+    
+}
+  
+input:checked {
+    outline: 2px solid rgb(13, 181, 7);
+    height: 18px;
+    width: 18px;
+   
+}
+
+ 

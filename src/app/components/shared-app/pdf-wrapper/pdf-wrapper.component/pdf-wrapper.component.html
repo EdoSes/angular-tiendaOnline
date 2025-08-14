@@ -1,0 +1,12 @@
+
+<div class="pdf-viewer-container" *ngFor="let safeUrl of  validPdfUrls">
+  <ngx-extended-pdf-viewer
+    [src]="safeUrl"
+    useBrowserLocale="true"
+    [pageViewMode]="pageViewMode"
+    height="80vh"
+    [showSidebarButton]="false"
+    [showDownloadButton]="true"
+    [showPrintButton]="true">
+  </ngx-extended-pdf-viewer>
+</div>

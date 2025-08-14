@@ -1,0 +1,131 @@
+<!--- SECCION DE TITULO -->
+<section class="bg-color">
+   <app-title-section
+      [title]="'Galería'"
+      [subtitle]="'Control Entrega Pedido'"
+      [highlight]="'Tienda Online'">
+    </app-title-section>
+</section>
+
+
+<!-- container shipping    -->
+<div *ngIf="divShipping">
+    <div class="contenedor">
+        <div class="cart">
+          <div>
+              <!--- lista de Pedidos -->
+              <form> 
+                <table  style="font-size: small;">
+                  <caption class="caption">Lista de Pedidos</caption>
+                    <thead>
+                      <tr>
+                        <th>Id.Pedido</th>
+                        <th>Fecha Pedido</th>
+                        <th>Fecha Entrega</th>
+                        <th># Items</th>
+                        <th>Precio Pedido</th>
+                        <th>Forma Pago</th>
+                        <th>Estado Pedido </th>
+                        <th>Accion</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr  *ngFor="let obj of pedcliente; let indice = index" style="background-color: rgb(194, 219, 211); font-size: 18px;">
+                        <td>{{obj.idPedido }}</td>
+                        <td>{{obj.fechaPedido     | date:'EE,  d, y'}}</td>
+                        <td>{{obj.fechaEnvio      | date:'EE,  d, y'}}</td>
+                        <td>{{obj.cantidadTotal   | number: '2.2' }}</td>
+                        <td>{{obj.precioTotal     | number: '2.2'}}</td>
+                        <td>{{obj.estadoPedido}}</td>
+                        <td>
+                          <label >
+                            Pago:
+                            <input  type="checkbox" unable [checked] ="obj.pagoPedido" (change)="onCheckboxChange($event, obj, 'pagoPedido')" [disabled]="true"> 
+                            <span class="custom-checkbox"></span>
+                          </label>
+                          <label>
+                            Enviado: 
+                           <input  type="checkbox" unable [checked] ="obj.tramitePedido" (change)="onCheckboxChange($event, obj, 'tramitePedido')" [disabled]="true">  
+                           <span class="custom-checkbox"></span>
+                          </label>
+                          <label>
+                            Anulado:
+                            <input  type="checkbox" unable [checked] ="obj.anulaPedido" (change)="onCheckboxChange($event, obj, 'anulaPedido')" [disabled]="true">
+                            <span class="custom-checkbox"></span>
+                          </label>
+                        </td>    
+                        <td>
+                          <mat-icon (click)="getidPedido(obj.idPedido)" class="btnEdit" matTooltip="Editar Producto">
+                            edit
+                          </mat-icon>
+                        </td>
+                      </tr>
+                    </tbody>  
+                </table>
+                <button class="btn-toggle" (click) ="toggleOverlay()">Salir</button>
+              </form>
+          </div>
+        </div>
+
+        <!--- detalle de cada Pedido -->
+       <div class="cart">
+          <div> 
+              <!--- lista de Items x Pedido -->
+            <table style="align-content:center; font-size:small;">
+              <caption class="caption">Productos del Pedido</caption>
+              <thead >
+              <tr>
+                <th>Id.Pedido</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+                <th>Promocion</th>
+              </tr>
+              </thead>
+              <tbody  *ngFor="let obj of pedclienteid;  let i = index;" style="background-color: rgb(146, 236, 141);">
+              <tr>
+                <td style="color:black" >{{obj.idPedido}}</td>
+                <td><img src="http://localhost:3000/{{obj.pathProducto}}"  width="70" height="70"  alt=""> </td>
+                <td>{{obj.nombreProducto}}</td>
+                <td>{{obj.cantidadPedido | number: '2.2'}}</td>
+                <td *ngIf="obj.promocionPedido > 0; else noCategory"  style="color: rgba(66, 10, 235, 0.975);" >
+                  {{obj.precioPedido | number: '2.2'}}
+                </td>
+                <ng-template #noCategory> 
+                  <td>{{obj.precioPedido | number: '2.2'}}</td>
+                </ng-template> 
+                <td *ngIf="obj.promocionPedido > 0; else noCategory1"  style="color: rgba(66, 10, 235, 0.975);" >
+                  {{obj.precioPedido*obj.cantidadPedido | number: '2.2'}}
+                </td>
+                <td *ngIf="obj.promocionPedido > 0 ; else noCategory2" style="color: rgba(66, 10, 235, 0.975);">
+                  {{obj.promocionPedido}} %
+                </td>
+                <ng-template #noCategory2>
+                 <td>{{obj.promocionPedido}} % </td> 
+                </ng-template>
+                <ng-template #noCategory1>
+                  <td>
+                     {{obj.precioPedido * obj.cantidadPedido | number: '2.2'}}
+                  </td> 
+                </ng-template> 
+              </tr>
+              </tbody>  
+              <tfoot class="pie">
+              <tr>
+              <td> </td>
+              <td> </td>
+              <td></td>
+              <td class="bbb"> {{this.CanItem | number: '2.2'}} </td>
+              <td></td>
+              <td class="ccc"> {{this.valortotal | number: '2.2'}}</td>
+              <td></td>
+  
+              </tr>
+               </tfoot>
+            </table>
+          </div>
+        </div>
+    </div>
+</div>

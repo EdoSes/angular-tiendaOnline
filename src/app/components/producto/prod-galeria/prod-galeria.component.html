@@ -1,0 +1,144 @@
+<!-- Seccion Titulo Pagina -->
+<app-title-section
+  [title]="'Galería'"
+  [subtitle]="'Catálogo de Productos'"
+  [highlight]="'Tienda Online'">
+</app-title-section>
+
+<!-- Seccion Toolbar  -->
+<section>
+  <mat-toolbar class="custom-toolbar" color="primary" fxLayout="row"  mat-scroll-shrink> 
+
+    <span class="toolbar-spacer">   </span>
+      <!-- Menu de Opciones  -->
+      <button  mat-icon-button  class="social-icon" (click)="ofertProd()" matTooltip="Ofertas" >
+        <mat-icon style="color: crimson;transform: rotate(60deg);">loyalty</mat-icon>
+      </button>
+
+      <div  matTooltip="Seccion categoria Productos" class="social-icon" >
+        <app-prod-menu></app-prod-menu>
+      </div>
+ 
+      <button  mat-icon-button  class="social-icon" (click)="openDialog('Info', '{{message}}', 'Close')" matTooltip="Info de Ayuda" >
+      <mat-icon>help</mat-icon>
+      </button>
+   
+     <button  mat-icon-button  class="social-icon" type="submit"  (click)="openDialogContacto('Info', '{{message}}', 'Close')"  matTooltip="Contactenos">
+       <mat-icon >phone_forwarded</mat-icon>
+      </button>
+   
+      <button  mat-icon-button  class="social-icon" type="submit"  (click)="LogAdmDiv()"  matTooltip="Login Adm.">
+        <mat-icon>manage_accounts</mat-icon>
+      </button>
+  </mat-toolbar>
+</section>
+  
+ <!-- container Stpper    -->
+<div>
+  <app-stepper></app-stepper> 
+</div>
+
+
+<!-- container Login -->
+<div class="overlay-screen" *ngIf="visible">
+  <app-login></app-login>
+</div>
+ 
+  <!-- container CARD *ngIf="producto.categoriaProducto === opcionMnu"    --> 
+  <div class="wraper" *ngIf="cardVisible">
+    <mat-card class="custom-card" *ngFor="let producto of productosFiltrados; let indice = index" >  
+      <div class="card-img-wrapper">
+          <img 
+          mat-card-image 
+          [src]="'http://localhost:3000/' + producto.pathProducto" 
+          alt="Imagen de producto" 
+          />
+      </div>
+
+      <mat-card-title class="centered-title">
+        {{ producto.nombreProducto | slice: 0:20 }}
+      </mat-card-title>
+
+      <mat-card-content>
+          <strong style="color:darkgreen;">   
+            {{producto.descripcionProducto | slice:0:20}}
+          </strong>
+      
+          <div *ngIf="producto.promocionProducto > 0; else noCategory">       
+           <!-- Dentro de tu <mat-card> -->
+
+                <button
+                    mat-icon-button
+                    color="primary"
+                    *ngIf="producto.promocionProducto > 0"
+                    matTooltip="Promo {{ producto.promocionProducto }}%"
+                    class="promo-tag"
+                >
+                    <mat-icon>local_offer</mat-icon>
+                </button>
+
+
+
+            <strong class="promo-text">
+              $ {{producto.precioProducto-((producto.precioProducto*producto.promocionProducto)/100) | number: '2.2'}} Con {{producto.promocionProducto}}  % Descuento 
+            </strong>
+          </div>            
+
+          <ng-template #noCategory> 
+            <strong strong style="color: darkolivegreen;">  
+               $  {{ producto.precioProducto | number: '1.2-2' }}  
+            </strong>
+            <br> 
+          </ng-template>
+      </mat-card-content>
+
+      <mat-card-actions  class="card-actions">
+          <button mat-button class="action-btn" (click)="decremento(producto, indice)">
+            <mat-icon>remove</mat-icon>
+          </button>
+
+          <span class="action-qty">{{ producto.cantidadProducto }}</span>
+
+          <button  mat-button class="action-btn"  (click)="incremento(producto)">
+            <mat-icon>add</mat-icon>
+          </button>
+      </mat-card-actions>
+
+    </mat-card>
+  </div>
+
+<!-- container Localizacion   -->
+<div *ngIf="divLocVisible">
+    <title>Simple Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script>
+      function initMap() {
+        var location = { lat: 40.7128, lng: -74.0060 }; // Example: New York City
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: location
+        });
+        var marker = new google.maps.Marker({
+          position: location,
+          map: map
+        });
+      }
+    </script>
+  <body onload="initMap()">
+    <div id="map" style="height: 500px; width: 100%;"></div>
+  </body>
+</div>
+
+
+ <!-- container Paginacion    -->
+<div class="pagination" *ngIf="pageVisible">
+  <mat-paginator [length]="currentData.length"
+    [pageSize]="10"
+    [pageSizeOptions]="[10, 15, 20]"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>
+
+
+
+ 

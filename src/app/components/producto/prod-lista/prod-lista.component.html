@@ -1,0 +1,99 @@
+<!--- SECCION DE TITULO -->
+<section class="bg-color">
+  <app-title-section
+      [title]="'Galería'"
+      [subtitle]="'Listado de Productos'"
+      [highlight]="'Tienda Online'">
+  </app-title-section>
+      <mat-toolbar class="mat-elevation-z10" color="primary" fxLayout="row"  mat-scroll-shrink> 
+        <button routerLink="/navegation/bar-Navegation">
+          <mat-icon matTooltip="Regresar">home</mat-icon>
+        </button>
+      </mat-toolbar>
+</section>
+<mat-toolbar>
+  <span>Listado de Productos</span>
+</mat-toolbar>
+
+ <!--- PROD.LISTA.COMPONENTE TABLA -->
+<mat-card >
+  <mat-card-content>
+    <table mat-table [dataSource]="dataSource"    class="mat-elevation-z8">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+          
+      <!-- Position Column -->
+      <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"  > {{element.nombreProducto}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Descripcion">
+        <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+        <td mat-cell *matCellDef="let element"  > {{element.descripcionProducto}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="Precio" >
+        <th mat-header-cell *matHeaderCellDef> Precio </th>
+        <td mat-cell *matCellDef="let element"  > {{element.precioProducto}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Imagen">
+        <th mat-header-cell *matHeaderCellDef> Imagen </th>
+       
+        <td mat-cell *matCellDef="let element"  >  
+           <img src=  "http://localhost:3000/{{element.pathProducto}}" width="70" height="70" alt="../../../../assets/1. Logo Bendita Gloria.jpg">
+          </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Categoria">
+        <th mat-header-cell *matHeaderCellDef> Categoria </th>
+        <td mat-cell *matCellDef="let element" > {{element.categoriaProducto}} </td>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="Publicacion" >
+        <th mat-header-cell *matHeaderCellDef> Publicacion </th>
+        <td mat-cell *matCellDef="let element">  
+          <input type="checkbox" disabled [(ngModel)]="element.publicacionProducto"  [ngModelOptions]="{standalone:true}">
+        </td>
+      </ng-container>
+
+     
+
+      
+      <ng-container matColumnDef="Codigo">
+        <th mat-header-cell *matHeaderCellDef> Codigo QR </th>
+        <td mat-cell *matCellDef="let element" > {{element.codbarrasProducto}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Promocion">
+        <th mat-header-cell *matHeaderCellDef> Promocion </th>
+        <td mat-cell *matCellDef="let element" > {{element.promocionProducto}} </td>
+      </ng-container>
+
+
+
+
+      <ng-container matColumnDef="Acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let element"> 
+          <mat-icon (click)="addEditProducto(element.id)" class="btnEdit" matTooltip="Editar Producto">edit</mat-icon> 
+          <mat-icon (click)="btnDelete(element.id)" class="btnDelete" matTooltip="Eliminar Producto">delete</mat-icon>    
+        </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
+

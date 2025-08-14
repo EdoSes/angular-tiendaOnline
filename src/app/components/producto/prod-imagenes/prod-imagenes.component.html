@@ -1,0 +1,56 @@
+<section class="bg-color">
+  <app-title-section
+      [title]="'Galería'"
+      [subtitle]="'Imagenes de Productos'"
+      [highlight]="'Tienda Online'">
+  </app-title-section>
+  <div class="containers">
+    <div>
+      <mat-toolbar class="mat-elevation-z10" color="primary" fxLayout="row"  mat-scroll-shrink> 
+        <button routerLink="/navegation/bar-Navegation">
+          <mat-icon matTooltip="Regresar">home</mat-icon>
+        </button>
+      </mat-toolbar>
+    </div>
+  </div>
+</section>
+
+
+<div class="container"> 
+<div>
+  @if (progress) {
+  <mat-toolbar class="progress-bar">
+    <mat-progress-bar color="accent" [value]="progress"></mat-progress-bar>
+    <span class="progress">{{ progress }}%</span>
+  </mat-toolbar>
+  }
+  <mat-form-field>
+    <div>
+      <mat-toolbar>
+        <input matInput [value]="fileName" />
+
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="!currentFile"
+          (click)="upload()"
+        >
+          Upload
+        </button>
+      </mat-toolbar>
+
+      <input
+        type="file"
+        id="fileInput"
+        (change)="selectFile($event)"
+        name="fileInput"
+      />
+    </div>
+  </mat-form-field>
+</div>
+@if (message) {
+<div class="message">
+  {{ message }}
+</div>
+}
+</div>

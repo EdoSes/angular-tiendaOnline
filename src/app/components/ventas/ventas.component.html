@@ -1,0 +1,298 @@
+
+<!--- SECCION DE TITULO -->
+<app-title-section
+      [title]="'Galería'"
+      [subtitle]="'Control Ventas'"
+      [highlight]="'Tienda Online'">
+</app-title-section>
+
+
+<mat-toolbar class="mat-elevation-z10" color="primary" fxLayout="row" fxLayoutAlign="space-between center" mat-scroll-shrink>
+  <button mat-icon-button routerLink="/navegation/bar-Navegation" aria-label="Regresar a navegación">
+    <mat-icon matTooltip="Regresar">home</mat-icon>
+  </button>
+
+  <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end center">
+    <button mat-stroked-button color="warn" type="button" (click)="ventFecha()">Por Rango Fechas</button>
+    <button mat-stroked-button color="warn" type="button" (click)="ventProducto()">Por Producto</button>
+    <button mat-stroked-button color="warn" type="button" (click)="ventProv()">Por Proveedor</button>
+    <button mat-stroked-button color="warn" type="button" (click)="ventImpt()">Facturas/Impuestos</button>
+    <button mat-stroked-button color="warn" type="button" (click)="venBalnc()">Balance</button>
+  </div>
+</mat-toolbar>
+<!--- Listado de Ventas ordenadas por Fecha -->
+<div class="contenedor" *ngIf="ventFechaVisible">
+    <div class="cart" >
+      <!--- DIV DE PRODUCTOS DEL CART -->
+      <form> 
+        <table>
+          <caption class="caption">Ventas Ordenados por Fecha</caption>
+            <thead style="font-size: 1.2em;">
+              <tr  style="background-color: rgb(238, 243, 238); color: rgb(23, 94, 160);" >
+                <th>Id.Pedido</th>
+                <th>Items</th>
+                <th>Precio Pedido</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha Pedido</th>
+                <th>Forma Pago</th>
+                <th>Pago</th>
+                <th>Enviado</th>
+                <th>Anulado</th>
+              </tr>
+            </thead>
+            <tbody  style="color: rgb(7, 7, 7); font-size: 14px;" >
+              <tr  *ngFor="let venta of ventas">     
+                   <td style="text-align: right;">{{venta.idPedido }}</td>
+                   <td style="text-align: right;">{{venta.Items_Pedido| number: '2.2'}}</td>
+                   <td style="text-align: right;">{{venta.Precio_Total| number: '2.2'  }}</td>
+                   <td style="text-align: left;">{{venta.nombreCliente}}</td>
+                   <td style="text-align: left;">{{venta.apellidoCliente}}</td>           
+                   <td>{{venta.fechaPedido   | date:'MMMM d, y'}}</td> 
+                   <td>{{ venta.estadoPedido}}</td> 
+                   <td style="text-align: center;" *ngIf="venta.pagoPedido">
+                      <mat-icon style="color: rgb(14, 94, 3);">check_circle</mat-icon>
+                    </td>
+                    <td style="text-align: center;" *ngIf="!venta.pagoPedido">
+                      <mat-icon style="color: rgb(39, 38, 4);">help_outline</mat-icon>
+                    </td>
+                    <td style="text-align: center;" *ngIf="venta.tramitePedido">
+                       <mat-icon style="color: rgb(14, 94, 3);">check_circle</mat-icon>
+                    </td>
+                    <td style="text-align: center;" *ngIf="!venta.tramitePedido">
+                      <mat-icon style="color: rgb(39, 38, 4);">help_outline</mat-icon>
+                    </td>
+                    <td  style="text-align: center;" *ngIf="venta.anulaPedido">
+                       <mat-icon style="color: rgb(14, 94, 3);;">check_circle</mat-icon>
+                    </td>
+                    <td style="text-align: center;" *ngIf="!venta.anulaPedido">
+                      <mat-icon style="color: rgb(39, 38, 4);">help_outline</mat-icon>
+                    </td>
+                    
+              </tr>
+            </tbody>  
+        </table>
+      </form>
+    </div>
+</div>
+
+<!--- Listado de Ventas Top de Productos mas vendidos-->
+<div class="contenedor" *ngIf="ventProductoVisible">
+  <div class="cart" >
+    <!--- DIV DE PRODUCTOS DEL CART -->
+    <form> 
+      <table>
+        <caption class="caption"> TOP de Productos Mayores Ventas</caption>
+          <thead style="font-size: 1.2em;">
+            <tr  style="background-color: rgb(238, 243, 238); color: rgb(23, 94, 160);" >
+              <th>Id.Producto</th>
+              <th>Producto</th>
+              <th>Imagen</th>
+              <th>Cantidad Vendida</th>
+              <th>Precio Total</th>
+            </tr>
+          </thead>
+          <tbody  style="color: rgb(7, 7, 7); font-size: 14px;" >
+            <tr  *ngFor="let venta of ventas">     
+                 <td>{{venta.id }}</td>
+                 <td style="text-align: left;">{{venta.nombreProducto}}</td>
+                 <td>  
+                  <img src= "http://localhost:3000/{{venta.pathProducto}}" width="50" height="50" alt="../../../../assets/1. Logo Bendita Gloria.jpg">
+                 </td>
+                 <td style="text-align: right;">{{venta.Items_Pedido| number: '2.2'}}</td>
+                 <td style="text-align: right;">{{venta.Precio_Total| number: '2.2'  }}</td>
+            </tr>
+          </tbody>  
+      </table>
+    </form>
+  </div>
+</div>
+
+<!--- Listado de Ventas ordenadas por Proveedor con mayores compras a menores compras -->
+<div class="contenedor"  *ngIf="ventProvVisible">
+  <div class="cart"  *ngIf="ventProvVisible">
+    <!--- DIV DE PRODUCTOS DEL CART -->
+    <form> 
+      <table>
+        <caption class="caption">Ventas por Proveedor</caption>
+          <thead style="font-size: 1.2em;">
+            <tr  style="background-color: rgb(238, 243, 238); color: rgb(23, 94, 160);" >
+              <th>Id.Cliente</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Cantidad Items</th>
+            </tr>
+          </thead>
+          <tbody  style="color: rgb(7, 7, 7); font-size: 14px;" >
+            <tr  *ngFor="let venta of ventas">     
+                 <td>{{venta.idCliente }}</td>
+                 <td style="text-align: left;">{{venta.nombreCliente}}</td>
+                 <td style="text-align: left;">{{venta.apellidoCliente}}</td>
+                 <td style="text-align: right;">{{venta.Cantidad_Pedidos | number: '2.2'}}</td>
+            </tr>
+          </tbody>  
+      </table>
+    </form>
+  </div>
+</div>
+
+<!--- Listado de Ventas Con Facturas e impouestos a las ventas -->
+<div class="contenedor"  *ngIf="ventPdfVisible">
+  <div class="cart">
+    <!--- DIV DE FACTURAS -->
+    <form> 
+      <table>
+        <caption class="caption">Visor de Facturas Tienda Online</caption>
+          <thead style="font-size: 1.0 em;">
+            <tr  style="background-color: rgb(238, 243, 238); color: rgb(23, 94, 160);" >
+              <th>IdPedido</th>
+              <th>Fecha Sistema</th>
+              <th>Impuestos</th>
+              <th>Observacion</th>
+              <th *ngIf="verPdf">Visor PDF</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let obj of factura; let i = index">
+              <!-- Fila principal -->
+              <tr>
+                <td>{{ obj.idpedidoFactura }}</td>
+                <td style="text-align: center;">{{ obj.fechaPDF | date:'MMMM d y' }}</td>
+                <td style="text-align: right;">{{ obj.impuestoFactura | number: '2.2' }}</td>
+                <td style="text-align: center;">{{ obj.obsFactura }}</td>
+                <td style="text-align: center;">
+                  <mat-icon (click)="togglePDF(i)" class="btnEdit" matTooltip="Ver PDF">picture_as_pdf</mat-icon>
+                  <mat-icon (click)="togglePDF(i)" class="btnEdit" matTooltip="Cancelar">cancel</mat-icon>
+                </td>
+              </tr>
+
+              <!-- Visor PDF solo si esta fila está activa -->
+              <tr *ngIf="pdfActivoIndex === i">
+          <td colspan="5" style="padding: 0; width: 100%;">
+            <div style="width: 100%;">
+              <ngx-extended-pdf-viewer
+                [src]="'http://localhost:3000/' + obj.pdfFactura"
+                useBrowserLocale="true"
+                height="90vh"
+                style="width: 100%;"
+                [showSidebarButton]="false"
+                [showDownloadButton]="true"
+                [showPrintButton]="true"
+                [showPresentationModeButton]="false">
+              </ngx-extended-pdf-viewer>
+            </div>
+          </td>
+              </tr>
+            </ng-container>
+          </tbody>
+      </table>
+    </form> 
+  </div>
+</div>
+
+<!--- Listado de Ventas Con Facturas e impuestos a las ventas -->
+<div class="contenedor"  *ngIf="ventBalncVisible" >
+  <div class="cart">
+  <!--- Tabla de Balance de Ventas -->
+  <table>
+    <caption class="caption">  <strong>   Relacion de Ventas - Tienda Online   </strong> </caption>
+    <thead style="font-size: 0.8em;">
+      <tr>
+        <th>ID Pedido</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Fecha Venta</th>
+        <th>Pagado</th>
+        <th>Anulado</th>
+        <th>Valor Pedido</th>
+        <th>(10%) Impuesto</th>
+        <th>Total Ingreso</th>   
+      </tr>
+    </thead>
+    <tbody  *ngFor="let venta of ventas">
+      <tr *ngIf="!venta.anulaPedido">
+        <td>{{ venta.idPedido }}</td>
+        <td>{{ venta.nombreCliente }}</td>
+        <td>{{ venta.apellidoCliente }}</td>
+        <td>{{ venta.fechaPedido  | date:'MMMM d, y' }}</td>
+        <td *ngIf="venta.pagoPedido" style="text-align: center;">
+          <mat-icon style="color: rgb(14, 94, 3);">check_circle</mat-icon>
+        </td>
+        <td *ngIf="!venta.anulaPedido" style="text-align: center;" > 
+          <mat-icon style="color: rgb(14, 94, 3);">indeterminate_check_box</mat-icon>
+        </td>
+        <td style="text-align: right">{{ venta.Precio_Total | number: '2.2' }}</td>
+        <td style="text-align: right" >
+           {{( (venta.Precio_Total*10)/100) | number: '2.2' }}  
+        </td>
+        <td *ngIf="(venta.pagoPedido)" style="text-align: right; color: brown; font-size: 14px;" > 
+           {{(venta.Precio_Total - (venta.Precio_Total*10)/100) | number: '2.2' }}  
+        </td>
+      </tr>
+    </tbody>
+    <tfoot> 
+      <tr> 
+        <td style="color: brown;" colspan="6"><strong>TOTALES</strong></td> 
+        <td style="text-align: right;">{{ sumPago | number: '2.2' }}</td>
+        <td style="text-align: right;">{{ sumImpt | number: '2.2' }}</td> 
+        <td style="text-align: right; color: brown;"> <strong>{{ sumNeta | number: '2.2' }}</strong>   </td> 
+      </tr>
+    </tfoot>
+  </table>
+
+
+  <!--- Tabla de Pedidos Anulados -->
+  <table>
+    <caption class="caption"><strong>   Pedidos Anulados Tienda Online   </strong>  </caption>
+    <thead style="font-size:  0.8em;">
+      <tr>
+        <th>ID Pedido</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Fecha Venta</th>
+        <th>Pagado</th>
+        <th>Anulado</th>
+        <th>Valor Pedido</th>
+        <th>(10%) Impuesto</th>
+        <th>Valor  Anulado</th>   
+      </tr>
+    </thead>
+    <tbody  *ngFor="let venta of ventas">
+      <tr *ngIf="venta.anulaPedido && venta.pagoPedido" >
+        <td>{{ venta.idPedido }}</td>
+        <td>{{ venta.nombreCliente }}</td>
+        <td>{{ venta.apellidoCliente }}</td>
+        <td>{{ venta.fechaPedido  | date:'MMMM d, y' }}</td>
+        <td *ngIf="venta.pagoPedido" style="text-align: center;font-size: 14px;">
+          <mat-icon style="color: rgb(14, 94, 3);">check_circle</mat-icon>
+        </td>
+        <td *ngIf="venta.anulaPedido" style="text-align: center;" > 
+          <mat-icon style="color: rgb(14, 94, 3);">check_circle</mat-icon>
+        </td>
+        <td style="text-align: right">{{ venta.Precio_Total | number: '2.2' }}</td>
+       
+        <td style="text-align: right" >
+           {{( (venta.Precio_Total*10)/100) | number: '2.2' }}  
+        </td>
+        <td *ngIf="(venta.anulaPedido); else noCategory" style="text-align: right ; color: rgb(94, 3, 3);"> 
+            {{(venta.Precio_Total-venta.Precio_Total) | number: '2.2' }} 
+        </td>
+        <ng-template #noCategory>
+          <td *ngIf="(venta.pagoPedido)" style="text-align: right"> 
+           {{(venta.Precio_Total - (venta.Precio_Total*10)/100) | number: '2.2' }}  
+        </td>
+        </ng-template>      
+      </tr>
+    </tbody>
+    <tfoot> 
+      <tr> 
+        <td style="color: brown;" colspan="6"><strong>TOTALES</strong></td> 
+        <td style="text-align: right;;">{{  this.sumAnul   | number: '2.2' }}</td>
+        <td style="text-align: right;">{{ this.sumAnulImpt | number: '2.2' }}</td> 
+        <td style="text-align: right;">{{this.sumAnulNeta  | number: '2.2' }}</td> 
+      </tr>
+    </tfoot>
+  </table>
+</div>
+</div>
+

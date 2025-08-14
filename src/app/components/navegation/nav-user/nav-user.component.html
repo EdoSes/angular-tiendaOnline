@@ -1,0 +1,51 @@
+
+<section class="bg-color">
+  <app-title-section
+      [title]="'Galería'"
+      [subtitle]="'Menu Usuario Administrador'"
+      [highlight]="'Tienda Online'">
+</app-title-section>
+      <mat-toolbar class="mat-elevation-z10" color="primary" fxLayout="row"  mat-scroll-shrink> 
+          <button (click)="drawer.toggle()"  mat-mini-fab>
+                <mat-icon>menu</mat-icon>
+          </button>
+      </mat-toolbar>
+</section>
+
+<mat-drawer-container autosize="">
+    <mat-drawer #drawer opened="true" mode="side" position="start">
+        <mat-nav-list class="mat-sidenav-container">
+            <mat-list-item>
+                <button routerLink="/productos/lista{{controlId}}" mat-button><mat-icon> inventory</mat-icon>Productos</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/productos/imagen{{controlId}}" mat-button ><mat-icon> add_a_photo</mat-icon>Subir Imagenes</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/productos/galeria{{controlId}}" mat-button><mat-icon>collections_bookmark</mat-icon>Catalogo Productos</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/pedidos/cliente{{controlId}}" mat-button><mat-icon>local_shipping </mat-icon>Pedidos</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/ventas" mat-button><mat-icon>shopping_bag</mat-icon>Ventas</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/usuarios" mat-button><mat-icon>how_to_reg</mat-icon>Borrar Usuarios</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/documentos" mat-button><mat-icon>folder</mat-icon>Documentacion</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/productos/galeria" mat-button><mat-icon>home</mat-icon>Home</button>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div style="height: 88vh;">
+            <!-- <nav-user></nav-user> 
+               --> 
+         
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

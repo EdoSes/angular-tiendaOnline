@@ -1,0 +1,18 @@
+<div class="mat-dialog-container">
+  <h1 class="mat-dialog-title" >{{ data.title }}</h1>
+  <div class="mat-dialog-content">
+    <body >
+      <p style="text-align: justify; white-space: pre-wrap;"> 
+      {{ data.message }} 
+      </p>
+    </body>  
+  </div>
+    <div mat-dialog-actions>
+    <!--    <button mat-button (click)="onNoClick()">No</button>
+        <button mat-button (click)="onYesClick()">Sí</button> -->
+        <button mat-button mat-dialog-close>{{ data.buttonText }}</button>
+    </div>
+  </div>
+<div>
+
+

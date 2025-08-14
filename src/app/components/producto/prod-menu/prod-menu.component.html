@@ -1,0 +1,7 @@
+
+<div class="select-container">
+  <select class="custom-select" [(ngModel)]="selectedOption" (change)="onSelectionChange($event)" >
+    <option value="" enaible selected>Select an option</option>
+    <option *ngFor="let objeto of OPTIONS" [value]="objeto.option" selected="">{{objeto.option }}</option>
+  </select>
+</div>

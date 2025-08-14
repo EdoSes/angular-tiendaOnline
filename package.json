@@ -1,0 +1,45 @@
+{
+  "dependencies": {
+    "@angular/animations": "^20.1.7",
+    "@angular/cdk": "^20.1.5",
+    "@angular/common": "^20.1.7",
+    "@angular/compiler": "^20.1.7",
+    "@angular/core": "^20.1.7",
+    "@angular/forms": "^20.1.7",
+    "@angular/material": "^20.1.4",
+    "@angular/platform-browser": "^20.1.7",
+    "@angular/platform-browser-dynamic": "^20.1.7",
+    "@angular/router": "^20.1.7",
+    "@auth0/angular-jwt": "^5.2.0",
+    "@nutrient-sdk/viewer": "^1.5.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
+    "ngx-extended-pdf-viewer": "^24.3.1-alpha.0",
+    "ngx-toastr": "^19.0.0",
+    "pdfjs-dist": "^5.4.54",
+    "rxjs": "^7.8.2",
+    "zone.js": "^0.15.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^20.1.4",
+    "@angular/cli": "20.1.4",
+    "@angular/compiler-cli": "20.1.4",
+    "install": "^0.13.0",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.8.2"
+  },
+  "name": "appcliente",
+  "version": "1.0.0",
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.",
+  "main": "index.js",
+  "scripts": {
+    "ng": "ng",
+    "build": "rimraf dist && ng build && echo '/* /index.html 200' > dist/appcliente/_redirects",
+    "clean": "rimraf node_modules dist package-lock.json",
+    "reinstall": "npm run clean && npm install",
+    "start": "ng serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

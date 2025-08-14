@@ -1,0 +1,30 @@
+<!--- SECCION DE TITULO -->
+<section class="bg-color">
+  <app-title-section
+      [title]="'Galería'"
+      [subtitle]="'Pasarela de Pago Pedidos'"
+      [highlight]="'Tienda Online'">
+    </app-title-section>
+</section>
+
+<div class="styleconfirm">
+  <h1 >Has terminado la trasanccion ..Exitosamente..</h1>
+  <p>Gracias <strong> {{ datos.nombre}}  {{datos.apellido}}</strong>
+     por usar nuestra aplicación. ¡Hasta pronto!</p>
+  <p style="color: brown;">ID Factura Corporativa : <strong> {{ datos.idPedido }}</strong></p>
+  <p style="color: brown;">Valor de la Factura    : <strong>{{ datos.valorPedido | number: '2.2'}}</strong></p>
+  <button (click)="logout()">Cerrar Sesión y Salir</button>
+</div>
+
+<mat-dialog-content style="overflow: hidden;" class="drawer-content">
+    <mat-drawer-container  class="drawer-container" autosize>
+      <mat-drawer-content class="mat-drawer-content">
+        <!-- Pago Por paypal -->
+        <div *ngIf="divinfoPaypal" class="stylepaypal">
+          <h3>Pasarela de Pago PAYPAL, de Click <strong><span style="color: brown;"> Hacer Transaccion </span> </strong></h3>
+          <app-paypal></app-paypal>
+        </div>
+      </mat-drawer-content>
+    </mat-drawer-container>
+</mat-dialog-content>
+

@@ -1,0 +1,37 @@
+<section class="bg-color">
+ 
+  <app-title-section
+  [title]="'Galería'"
+  [subtitle]="'Mantenimiento Usuarios y clientes Registrados'"
+  [highlight]="'Tienda Online'">
+</app-title-section>
+</section>
+
+<div class="contenedor" *ngIf="visible"> 
+  <div class="wraper" >
+  <table class="table-cart">
+    <caption class="cap">Usuarios Registrados Que se Pueden Borrar</caption>
+    <thead>
+      <tr> 
+        <th>id.</th>
+        <th>Usuario</th>
+        <th>Email</th>
+        <th>Accion</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <tr  *ngFor="let obj of listCliente; let indice = index" >
+        <td> {{obj.id}} </td>
+        <td> {{obj.user}} </td>
+        <td> {{obj.email}} </td>
+        <td> 
+          <button  (click)="delCliente(obj)" matTooltip="Eliminar Usuario">
+              <mat-icon>delete_forever</mat-icon>
+          </button>
+        </td> 
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <button class="btn-toggle" (click) ="cancelar()">Salir</button>
+</div>

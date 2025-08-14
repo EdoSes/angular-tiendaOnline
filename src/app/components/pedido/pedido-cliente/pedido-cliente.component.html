@@ -1,0 +1,420 @@
+
+<!--- SECCION DE TITULO -->
+<section class="bg-color">
+    <app-title-section
+      [title]="'Galería'"
+      [subtitle]="'Pedidos del Cliente'"
+      [highlight]="'Tienda Online'">
+    </app-title-section>
+    <div class="toolbar-clientes">
+      <mat-toolbar class="mat-elevation-z10" color="primary" fxLayout="row"  mat-scroll-shrink> 
+        <button routerLink="/navegation/bar-Navegation">
+          <mat-icon matTooltip="Regresar">home</mat-icon>
+        </button>
+ <!---       <form #PedidoCliente="ngForm" (ngSubmit)="getidPedido()">
+          <input type="string" name="id" placeholder="Numero Pedido" [(ngModel)]="numPedido">
+          <button type="submit">Buscar</button>
+        </form>-->
+      </mat-toolbar>
+    </div>
+</section>
+
+ <!--- Relacion de Clientes + Lista de Pedidos * Cliente -->
+<div class="contenedor" *ngIf="verCliente">
+  
+    <div class="cliente">
+      <!--- SECCION DE CLIENTE -->
+      <mat-card>
+        <mat-card-header  style="font-size: 1.2em;">
+          Relacion de Clientes  
+        </mat-card-header>
+        <mat-card-content>
+          <table mat-table [dataSource]="dataSource"    class="mat-elevation-z8">
+          
+            <ng-container matColumnDef='IdCliente'>
+              <th mat-header-cell *matHeaderCellDef>IdCliente</th>
+              <td mat-cell *matCellDef="let element"> {{element.idCliente}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef='Nombre'>
+              <th mat-header-cell *matHeaderCellDef>Nombre</th>
+              <td mat-cell *matCellDef="let element"> {{element.nombreCliente}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef='Apellido' >
+              <th mat-header-cell *matHeaderCellDef>Apellido</th>
+              <td mat-cell *matCellDef="let element"> {{element.apellidoCliente}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef='Numero'>
+              <th mat-header-cell *matHeaderCellDef>Telefono</th>
+              <td mat-cell *matCellDef="let element"> {{element.numeroCliente}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef='Email'>
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let element">{{element.emailCliente}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef='Direccion'>
+              <th mat-header-cell *matHeaderCellDef>Direccion</th>
+              <td mat-cell *matCellDef="let element">{{element.direccionCliente}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef='Pedidos'>
+              <th mat-header-cell *matHeaderCellDef style="text-align: center;"># Pedidos</th>
+              <td mat-cell *matCellDef="let element" style="text-align: center;">{{element.cant_pedido}} </td>
+            </ng-container>
+           
+            <ng-container matColumnDef="Acciones">
+              <th mat-header-cell *matHeaderCellDef> Acciones </th>
+              <td mat-cell *matCellDef="let element"> 
+                <mat-icon (click)="getpedidoCliente(element.idCliente)" class="btnEdit" matTooltip="Editar Producto">edit</mat-icon> 
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+     
+    </div>
+    <div class="cart" >
+      <!--- DIV DE PRODUCTOS DEL CART -->
+      <form> 
+        <table>
+          <caption class="caption">Lista de Pedidos Por Cliente</caption>
+            <thead style="font-size: 1.2em;">
+              <tr  style="background-color: rgb(238, 243, 238); color: rgb(23, 94, 160);" >
+                <th style="font-size: 0.5em;">Cantidad Pedidos(s)</th>
+                <th style="color:black">Id.Pedido</th>
+                <th>Fecha Pedido</th>
+                <th>Fecha Entrega</th>
+                <th>Cantidad Items</th>
+                <th>Precio Pedido</th>
+                <th>Forma Pago</th>
+                <th>Estado Pedido </th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody  style="color: rgb(210, 92, 41); font-size: 16px;" >
+              <tr  *ngFor="let obj of pedcliente; let indice = index" >
+                <td style="font-size: 0.9em;">{{indice+1}} </td>
+                <td style="color:black">{{obj.idPedido }}</td>
+                <td>{{obj.fechaPedido     | date:'EEEE, MMMM d, y'}}</td>
+                <td>{{obj.fechaEnvio      | date:'EEEE, MMMM d, y'}}</td>
+                <td>{{obj.cantidadTotal   | number: '2.2' }}</td>
+                <td>{{obj.precioTotal     | number: '2.2'}}</td>
+                <td>{{obj.estadoPedido}}</td>
+                <td>
+                  <label >
+                    Pago:
+                    <input type="checkbox" unable [checked] ="obj.pagoPedido" (change)="onCheckboxChange($event, obj, 'pagoPedido')" [disabled]="true"> 
+                    <span class="custom-checkbox"></span>
+                  </label>
+                  <label>
+                    Enviado: 
+                   <input  type="checkbox" enable [checked] ="obj.tramitePedido" (change)="onCheckboxChange($event, obj, 'tramitePedido')">  
+                   <span class="custom-checkbox"></span>
+                  </label>
+                  <label>
+                    Anulado:
+                    <input type="checkbox" enable [checked] ="obj.anulaPedido" (change)="onCheckboxChange($event, obj, 'anulaPedido')">
+                    <span class="custom-checkbox"></span>
+                  </label>
+                </td>    
+                <td>
+                  <mat-icon (click)="getidPedido(obj.idPedido)" class="btnEdit" matTooltip="Editar Producto">
+                    edit
+                  </mat-icon>
+                </td>
+              </tr>
+            </tbody>  
+        </table>
+      </form>
+    </div>
+</div>
+
+<!---BUSCA Y DESPLEGA EL Pedido, info ClIEnte, Genera Factura -->
+<div class="contenedor" *ngIf="verClienteDetalle" >
+  <div class="cart" *ngIf="this.pedcliente01.length != 0"  >
+    <!--- DIV DE PRODUCTOS DEL CART -->
+    <form> 
+      <div class="header-form">
+        <!--- Muestra Iconos de Cliente y Factura-->
+        <div class="header-form-0">
+           <!--- Boton Info Cliente -->
+          <button (click)="getinfoCliente(); abrirDialog(dialogTemplate)"  matTooltip="Info Cliente">
+            <mat-icon >perm_identity</mat-icon>
+          </button>
+           <!--- Boton Info Cliente -->
+          <ng-template #dialogTemplate>
+            <div class="container-cliente">
+              <div class="container-tabla">
+                <table>
+                  <caption class="caption">Informacion del Cliente</caption>
+                    <thead style="font-size: 1.2em;" class="cabecera"  >
+                      <tr  style="background-color: rgb(238, 243, 238); color: rgb(23, 94, 160);" >
+                        <th style="color:black">Id.Cliente</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>Direccion</th>
+                        <th>Telefono</th>
+                      </tr>
+                    </thead> 
+                      <tbody  *ngFor="let obj of infocliente;  let i = index; "style="color: rgb(210, 92, 41); font-size: 18px;" >
+                        <ng-container *ngIf="pedcliente01.length === 0">
+                          <li>No items found</li>
+                        </ng-container>
+                        <tr>
+                          <td>{{obj.idCliente}}</td>
+                          <td>{{obj.nombreCliente}}</td>
+                          <td>{{obj.apellidoCliente}}</td>
+                          <td>{{obj.emailCliente}} </td>  
+                          <td>{{obj.direccionCliente}}</td>
+                          <td>{{obj.numeroCliente}}</td>
+                        </tr>
+                      </tbody>                   
+                </table>
+              </div>
+            </div>
+          </ng-template>
+          <!--Boton Info Factura-->
+          <button >
+              <mat-icon (click)="getinfoFactura()"  matTooltip="Generar Factura" appIconSize="64px"  class="btnAdd">
+                   assignment
+              </mat-icon>    
+          </button> 
+          <!---Boton Email Cliente -->
+          <button >
+            <mat-icon (click)="sendEmail()"  matTooltip="Enviar Email" appIconSize="64px"  class="btnAdd">
+                 email
+            </mat-icon>    
+          </button>
+        </div>
+      </div>
+       <!--- Muestra un Pedido Seleccionado-->
+       <div> 
+          <table style="align-content: center;">
+            <caption class="caption">Productos Seleccionados En el Pedido</caption>
+            <thead style="font-size: 1.2em;" class="cabecera" >
+            <tr  style="background-color: rgb(238, 243, 238); color: rgb(23, 94, 160);" >
+              <th style="color:black">Id.Pedido</th>
+              <th>Fecha</th>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Total</th>
+              <th>Promocion</th>
+            </tr>
+            </thead>
+            <tbody  *ngFor="let obj of pedcliente01;  let i = index;" style="color: rgb(210, 92, 41); font-size: 18px;" >
+            <ng-container *ngIf="pedcliente01.length === 0">
+              <li>No items found</li>
+            </ng-container>
+            <tr>
+              <td style="color:black" >{{obj.idPedido}}</td>
+              <td>{{obj.fechaPedido | date:'EEEE, MMMM d, y'}}</td>
+              <td><img src="http://localhost:3000/{{obj.pathProducto}}"  width="70" height="70"  alt=""> </td>
+              <td>{{obj.nombreProducto}}</td>
+              <td>{{obj.cantidadPedido | number: '2.2'}}</td>
+              <td *ngIf="obj.promocionPedido > 0; else noCategory"  style="color: rgba(66, 10, 235, 0.975);" >
+                {{obj.precioPedido | number: '2.2'}}
+              </td>
+              <ng-template #noCategory> 
+                <td>{{obj.precioPedido | number: '2.2'}}</td>
+              </ng-template> 
+              <td *ngIf="obj.promocionPedido > 0; else noCategory1"  style="color: rgba(66, 10, 235, 0.975);" >
+                {{obj.precioPedido*obj.cantidadPedido | number: '2.2'}}
+              </td>
+              <td *ngIf="obj.promocionPedido > 0 ; else noCategory2" style="color: rgba(66, 10, 235, 0.975);">
+                {{obj.promocionPedido}} %
+              </td>
+              <ng-template #noCategory2>
+               <td>{{obj.promocionPedido}} % </td> 
+              </ng-template>
+              <ng-template #noCategory1>
+                <td>
+                   {{obj.precioPedido * obj.cantidadPedido | number: '2.2'}}
+                </td> 
+              </ng-template> 
+            </tr>
+            </tbody>  
+            <tfoot class="pie">
+            <tr>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+          
+            <td></td>
+            <td class="bbb"> {{this.CanItem | number: '2.2'}} </td>
+            <td></td>
+            <td class="ccc"> {{this.valortotal | number: '2.2'}}</td>
+            <td></td>
+
+            </tr>
+             </tfoot>
+          </table>
+        </div>
+    </form>
+  </div>
+</div>
+
+<!--- Factura -->
+<div  *ngIf="verFactura">
+  <div id="contentToConvert">
+    <body class="class-factura" >
+	  	<header>
+  			<h1>Invoice</h1>
+  			<address contenteditable>
+		    		<p>Jonathan Neal</p>
+	    			<p>101 E. Chapman Ave<br>Orange, CA 92866</p>
+	    			<p>(800) 555-1234</p>
+  			</address>
+        <span>
+          <img alt="" src="../../../../assets/icons8-ecommerce-64.png"  width="90" height="90"  alt="">
+          <!---  <input type="file" accept="image/*"> -->
+        </span>
+        <div class="right-div">
+          <table> 
+            <caption><strong>Informacion del Cliente </strong></caption>
+            <tr>
+              <th> Nombre y Apellido</th>
+              <th>Direccion</th>
+              <th>Contacto</th>
+              <th>Correo Electronico</th>
+            </tr>
+            <tr>
+              <td>{{this.infoNombre}} {{this.infoApelld}}</td>
+              <td>{{this.infoDirecc}}</td>
+              <td>{{this.infoNumero}} </td>
+              <td>{{this.infoemail}}</td>
+            </tr>
+          </table>
+        </div>  	
+	  	</header>
+	  	<article>
+	  		<table class="meta" > 
+	  			<tr>
+	  				<th><span contenteditable>Factura #</span></th>
+	  				<td><span contenteditable>{{idPedido01}}</span></td>
+	  			</tr>
+	  			<tr>
+					<th><span contenteditable>Fecha Pedido</span></th>
+	  				<td><span contenteditable>{{fechaPedido | date:'EEEE, MMMM d, y'}}</span></td>
+		  		</tr>
+			  	<tr >
+			  		<th><span contenteditable>Cantidad a Pagar</span></th>
+			  		<td><span id="prefix" contenteditable>$</span><span>{{this.valortotal | number: '2.2'}}</span></td>
+			  	</tr>
+		  	</table>
+		  	<table class="inventory">
+  				<thead>
+	  				<tr>
+	  					<th><span contenteditable>Item</span></th>
+	   					<th><span contenteditable>Descripcion</span></th>
+		  				<th><span contenteditable>Rate</span></th>
+	  					<th><span contenteditable>Cantidad</span></th>
+		  				<th><span contenteditable>Precio</span></th>
+		  			</tr>
+		  		</thead>
+		  		<tbody>
+		  			<tr *ngFor="let obj of pedcliente01;  let i = index"  >
+		  				<td><a class="cut">-</a><span contenteditable>{{obj.nombreProducto}}</span></td>
+		  				<td><span contenteditable>Ninguna</span></td>
+		  				<td><span data-prefix></span><span contenteditable>{{obj.precioPedido   | number: '2.2'}}</span></td>
+		  				<td><span contenteditable>{{obj.cantidadPedido | number: '2.2'}}</span></td>
+			  			<td><span data-prefix></span><span>{{obj.precioPedido*obj.cantidadPedido | number: '2.2'}}</span></td>
+		  			</tr>
+		  		</tbody>
+		  	</table>
+	  		<a class="add">+</a>
+	  		<table class="balance">
+	  			<tr>
+	  				<th><span contenteditable>Total</span></th>
+	  				<td><span data-prefix>$</span><span>{{this.valortotal | number: '2.2'}}</span></td>
+	  			</tr>
+          <tr>
+	  				<th><span contenteditable>10% Impuesto</span></th>
+	  				<td><span data-prefix>$</span><span>{{(10*this.valortotal/100) | number: '2.2'}}</span></td>
+	  			</tr>
+	  			<tr>
+		  			<th><span contenteditable>Cantidad Pagada</span></th>
+			  		<td><span data-prefix>$</span><span contenteditable>0.00</span></td>
+			  	</tr>
+			  	<tr>
+		  			<th><span contenteditable>Balance Deuda</span></th>
+	  				<td><span data-prefix>$</span><span>{{this.valortotal+(10*this.valortotal/100) | number: '2.2'}}</span></td>
+		  		</tr>
+	  		</table>
+	  	</article>
+	  	<aside>
+	  		<h1><span contenteditable>Additional Notes</span></h1>
+	  		<div contenteditable>
+	    			<p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
+	  		</div>
+	  	</aside>
+	  </body>
+    <div>
+      <button class="btn btn-primary" (click)="downloadAsPDF()">Export To PDF</button>
+    </div>
+  </div>  
+  <!--- Post  Factura -->
+  <div *ngIf="postFactura"> 
+    @if (progress) {
+      <mat-toolbar class="progress-bar">
+         <mat-progress-bar color="accent" [value]="progress">
+            <span class="progress">{{ progress }}%</span>
+         </mat-progress-bar>  
+      </mat-toolbar>
+    }
+    <mat-form-field>
+      <mat-toolbar>
+        <input matInput [value]="fileName" />
+          <button mat-flat-button color="primary" [disabled]="!currentFile" (click)="loadPDF()">
+            UPLOAD
+          </button>
+      </mat-toolbar>
+          <input type="file" id="fileInput" (change)="selectFile($event)" name="fileInput"/>
+    </mat-form-field>
+    @if (message) {
+     <div class="message">
+        {{ message }}
+      </div>
+    }
+  </div>
+</div>
+ 
+
+<!--- Muestra correo -->
+<div  class="contenedor" *ngIf="verDivCorreo">
+  <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+    <mat-form-field subscriptSizing="dynamic"  appearance="fill" style="min-width: 100px; width: 100%;">
+      <mat-label>Para</mat-label>
+      <input matInput subscriptSizing="dynamic" >
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic"  appearance="fill" style="min-width: 100px; width: 100%;">
+      <mat-label>Asunto</mat-label>
+      <input matInput formControlName="subject" required>
+    </mat-form-field>
+    <mat-form-field subscriptSizing="dynamic"  appearance="fill" style="min-width: 100px; width: 100%;">
+      <mat-label>Mensaje</mat-label>
+      <textarea matInput formControlName="message" required></textarea>
+    </mat-form-field>
+   
+    <div class="custom-form-field" appearance="fill" style="min-width: 100px; width: 100%;"> 
+      <mat-label>Archivo Adjunto</mat-label>
+      <input class="custom-input"   type="file" (change)="selectFile($event)"> 
+      <span class="custom-error">Este campo es obligatorio</span> 
+    </div>
+    <button mat-raised-button color="primary" type="submit">Enviar</button>
+  </form>
+
+  
+
+</div>
+
